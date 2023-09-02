@@ -4,7 +4,7 @@ from flask_restful import Api, Resource
 
 #initialise app and Api constructors
 app = Flask(__name__)
-api = Api(app, prefix='/v1')
+api = Api(app)
 
 #posted data validity checker
 def checkPostedData(PostedData, functionName):
@@ -78,10 +78,11 @@ class Add(Resource):
     postedData = request.get_json()
     return handle_post_request(postedData, 'add')
   
-  '''THESE ARE ONLY HERE TO DEMO HOW HANDLERS FOR OTHER METHODS WOULD BE IMPLEMENTED
+ 
   def get(self):
-    #handles resources add requested using method GET
-    pass
+        return "This is the GET endpoint for Subtract resource"
+
+  '''THESE ARE ONLY HERE TO DEMO HOW HANDLERS FOR OTHER METHODS WOULD BE IMPLEMENTED
   def put(self):
     pass
   def delete(self):
@@ -90,7 +91,11 @@ class Add(Resource):
 class Subtract(Resource):
   def post(self):
     postedData = request.get_json()
-    return handle_post_request(postedData, 'sub')  
+    return handle_post_request(postedData, 'sub')
+class SubtractGet(Resource):
+  def get(self):
+      #handles resources add requested using method GET
+      return "This is the GET endpoint for Subtract resource"
 class Multiply(Resource):
   def post(self):
     postedData = request.get_json()
@@ -103,6 +108,7 @@ class Divide(Resource):
 #Map resource to an end point
 api.add_resource(Add, "/add")
 api.add_resource(Subtract,'/sub')
+api.add_resource(SubtractGet, '/sub/get')
 api.add_resource(Multiply, "/mult")
 api.add_resource(Divide,'/div')
 

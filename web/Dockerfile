@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 #run the application
-CMD ["ptython", "restfulApp.py"]
+CMD ["python", "restfulApp.py"]
