@@ -11,8 +11,10 @@ class Add(Resource):
   #define post and get methods
   def post(self):
     #handles resources add requested using method POST
-    #STEP 1: Get posted data
+    #STEP 1a: Get posted data
     postedData =  request.get_json()
+    #STEP 1b: Verify validity of posted data
+    checkpostedData(postedData, "add")
     x = int(postedData['x'])
     y = int(postedData['y'])
     #STEP2: perform computation and prepare return data
