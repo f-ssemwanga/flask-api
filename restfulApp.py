@@ -22,17 +22,24 @@ class Add(Resource):
     #STEP 1a: Get posted data
     postedData =  request.get_json()
     #STEP 1b: Verify validity of posted data
-    checkpostedData(postedData, "add")
-    x = int(postedData['x'])
-    y = int(postedData['y'])
-    #STEP2: perform computation and prepare return data
-    ret = x+y 
-    retMap = {
-      'Message':ret,
-      'Status Code':200
-    }
-    #STEP3: return data
-    return jsonify(retMap)
+    status_code = checkPostedData(postedData, "add")
+    if status_code !=200:
+      retJson={
+         'Message':"An Error happened",
+        'Status Code':status_code
+      }
+      return jsonify(retJson)
+    else:
+      x = int(postedData['x'])
+      y = int(postedData['y'])
+      #STEP2: perform computation and prepare return data
+      ret = x+y 
+      retMap = {
+        'Message':ret,
+        'Status Code':200
+      }
+      #STEP3: return data
+      return jsonify(retMap)
     
   ''' 
   THESE ARE ONLY HERE TO DEMO HOW HANDLERS FOR OTHER METHODS WOULD BE IMPLEMENTED
