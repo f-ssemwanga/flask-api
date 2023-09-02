@@ -6,6 +6,14 @@ from flask_restful import Api, Resource
 app = Flask(__name__)
 api = Api(app)
 
+#posted data validity checker
+def checkPostedData(PostedData, functionName):
+  if (functionName =="add"):
+    if "x" not in PostedData or "y" not in PostedData:
+      return 302
+    else:
+      return 200
+
 #define the resources
 class Add(Resource):
   #define post and get methods
