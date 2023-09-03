@@ -16,8 +16,9 @@ client = MongoClient("mongodb://db:27017")
 db = client.aNewDB
 #create a collection
 UserNum = db["UserNum"]
-#insert one document
-UserNum.insert({
+#insert one document if it doesnot exist
+if UserNum.count_documents({}) ==0:
+  UserNum.insert_one({
   'num_of_users':0
 })
 
@@ -30,7 +31,7 @@ class Visit(Resource):
     visitor_num = prev_num +1
     #update the no of visitors in the database
     UserNum.update_one({}, {"$set":{'num_of_users':visitor_num}})
-    return f'Hello user, {new_num_visitors}'
+    return f'Hello user, {visitor_num}'
   
 
 
