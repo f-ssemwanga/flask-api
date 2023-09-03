@@ -6,3 +6,8 @@ services:
     build: ./web
     ports:
     - "5000:5000"
+    #add a dependency to the database
+    links:
+    - db
+  db:
+    build: ./db
