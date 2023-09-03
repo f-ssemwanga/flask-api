@@ -1,10 +1,38 @@
 #Required imports
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
+from pymongo import MongoClient #mongo db import
+
 
 #initialise app and Api constructors
 app = Flask(__name__)
 api = Api(app)
+
+#initialise mongoclient to the point to the build db in docker
+#add the default port for mongodb
+client = MongoClient("mongodb://db:27017")
+
+#create a database
+db = client.aNewDB
+#create a collection
+UserNum = db["UserNum"]
+#insert one document
+UserNum.insert({
+  'num_of_users':0
+})
+
+#create a resource i.e. class to increment number of users visiting my application
+class Visit(Resource):
+  def get(self):
+    #get previous no of visitors
+    prev_num = UserNum.find({})[0]['num_of_users']
+    #increment previous
+    visitor_num = prev_num +1
+    #update the no of visitors in the database
+    UserNum.update_one({}, {"$set":{'num_of_users':visitor_num}})
+    return f'Hello user, {new_num_visitors}'
+  
+
 
 #posted data validity checker
 def checkPostedData(PostedData, functionName):
@@ -111,6 +139,7 @@ api.add_resource(Subtract,'/sub')
 api.add_resource(SubtractGet, '/sub/get')
 api.add_resource(Multiply, "/mult")
 api.add_resource(Divide,'/div')
+api.add_resource(Visit, '/greet')
 
 #run the main application
 if __name__ == "__main__":
